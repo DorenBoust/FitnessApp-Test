@@ -4,10 +4,12 @@
 
         android:fromXDelta="0%"
         android:toXDelta="0%"
-        android:fromYDelta="-100%"
+        android:fromYDelta="100%"
         android:toYDelta="0%"
         android:duration="500"
         android:startOffset="500"
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0"
 
         />
 

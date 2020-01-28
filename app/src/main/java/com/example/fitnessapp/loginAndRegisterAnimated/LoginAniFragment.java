@@ -33,7 +33,7 @@ public class LoginAniFragment extends Fragment {
 
         tvToRegister.setOnClickListener(view->{
             getFragmentManager().beginTransaction().
-                    setCustomAnimations(R.anim.enter_right_to_left,R.anim.exite_right_to_left,R.anim.enter_left_to_right,R.anim.exite_left_to_right).
+                    setCustomAnimations(R.anim.enter_top_to_bottom,R.anim.exite_bottom_to_top,R.anim.enter_bottom_to_top,R.anim.exite_top_to_bottom).
                     replace(R.id.mFragment, new RegisterAniFragment()).commit();
         });
 
