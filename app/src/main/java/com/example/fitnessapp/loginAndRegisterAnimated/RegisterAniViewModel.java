@@ -18,10 +18,20 @@ public class RegisterAniViewModel extends ViewModel {
     private MutableLiveData<String> mLiveData;
 
 
+
     public RegisterAniViewModel() {
 
+//        mLiveData = new MutableLiveData<>();
+//
+//        new AsynUserJSON(mLiveData).execute("1111");
+
+    }
+
+    public RegisterAniViewModel(String s) {
+
         mLiveData = new MutableLiveData<>();
-        new AsynUserJSON(mLiveData).execute();
+
+        new AsynUserJSON(mLiveData).execute(s);
 
     }
 
@@ -59,9 +69,9 @@ public class RegisterAniViewModel extends ViewModel {
 
     }
 
-    public LiveData<String> getIntegrationCode() {
-        return mLiveData;
-    }
+//    public LiveData<String> getIntegrationCode() {
+//        return mLiveData;
+//    }
 
 
 

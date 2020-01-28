@@ -30,6 +30,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -47,8 +48,12 @@ public class RegisterAniFragment extends Fragment {
     private ProgressBar progressBar;
     private FirebaseAuth fAuth;
 
-    MutableLiveData<String> liveDataIntegrationCode = new MutableLiveData<>();
     private String intagrationCodeStatus = "";
+
+    private String intagrationCode = "";
+    private MutableLiveData<String> mLiveData;
+
+
 
 
 
@@ -91,19 +96,82 @@ public class RegisterAniFragment extends Fragment {
         });
 
 
-        System.out.println(intagrationCodeStatus);
 
         btnRegister.setOnClickListener(v->{
 
-            mViewModel.getIntegrationCode().observe(this, new Observer<String>() {
+            mLiveData = new MutableLiveData<>();
+
+            TestAsync testAsync = new TestAsync(mLiveData);
+            String code = etIntegrationCode.getEditText().getText().toString();
+            testAsync.execute(code);
+
+            mLiveData.observe(this, new Observer<String>() {
                 @Override
                 public void onChanged(String s) {
-                    intagrationCodeStatus = s;
+                    intagrationCode = s;
+                    if (intagrationCode.equals("[]")){
+                        etIntegrationCode.setError("מספר לא תקין");
+                    } else {
+                        etIntegrationCode.setError(null);
+                    }
+                    System.out.println("sedgsgsgseg" + intagrationCode);
                 }
             });
-            System.out.println(intagrationCodeStatus);
+
         });
+
+
 
     }
 
+    public String getIntagrationCode() {
+        return intagrationCode;
+    }
+
+    public class TestAsync extends AsyncTask<String, Integer, String>{
+
+        MutableLiveData<String> mLiveData;
+
+        public TestAsync(MutableLiveData<String> mLiveData) {
+            this.mLiveData = mLiveData;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                String finalUrl = "http://appfitness.boust.me/wp-json/acf/v3/trainers?appConnection=" + strings[0];
+                URL url = new URL(finalUrl);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+                InputStream inputStream = urlConnection.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+
+                while((line = reader.readLine()) != null){
+                    sb.append(line);
+                }
+
+                return sb.toString();
+
+
+            }catch (IOException e){
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            mLiveData.setValue(s);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+    }
 }

@@ -6,8 +6,8 @@
         android:toXDelta="-100%"
         android:fromYDelta="0%"
         android:toYDelta="0%"
-        android:duration="500"
-        android:startOffset="500"
+        android:duration="200"
+        android:startOffset="200"
 
         />
 

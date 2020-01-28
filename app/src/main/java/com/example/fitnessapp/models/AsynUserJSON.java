@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.example.fitnessapp.loginAndRegisterAnimated.RegisterAniFragment;
 
@@ -18,15 +19,15 @@ public class AsynUserJSON extends AsyncTask<String, Integer, String> {
 
     MutableLiveData<String> mLiveData;
 
+
     public AsynUserJSON(MutableLiveData<String> mLiveData) {
         this.mLiveData = mLiveData;
     }
 
     @Override
     protected String doInBackground(String... strings) {
-        String finalUrl = "http://appfitness.boust.me/wp-json/acf/v3/trainers?appConnection=1111";
         try {
-
+            String finalUrl = "http://appfitness.boust.me/wp-json/acf/v3/trainers?appConnection=" + strings[0];
             URL url = new URL(finalUrl);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
